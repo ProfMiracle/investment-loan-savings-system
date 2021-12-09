@@ -1,0 +1,64 @@
+.page-header {
+    padding: 200px 0px 150px;
+}
+
+.page-header::after {
+    width: 100%;
+    height: 100%;
+    mask-image: none;
+    -webkit-mask-image: none;
+    mask-repeat: unset;
+    -webkit-mask-repeat: unset;
+    mask-size: unset;
+    -webkit-mask-size: unset;
+    mask-position: unset;
+    -webkit-mask-position: unset;
+}
+
+.log-out .navbar-toggler-icon {
+    display: unset;
+    vertical-align: unset;
+}
+
+
+footer.footer-top .footer-shape {
+    position: absolute;
+    display: none;
+    z-index: 9;
+}
+
+.pranto-ul ul, .pranto-ul li { list-style: none; margin: 0; padding: 0; }
+
+
+.pranto-ul ul { padding-left: 1em;}
+.pranto-ul li {
+    padding-left: 1em;
+    border: 1px dotted #000;
+    border-width: 0 0 1px 1px;
+}
+
+.pranto-ul li.container { border-bottom: 0px; width: 100%; }
+.pranto-ul li.empty { font-style: italic;
+    color: silver;
+    border-color: silver;
+}
+.pranto-ul li p { margin: 0;
+    background: #fff;
+    position: relative;
+    top: 0.5em;
+    padding-bottom: 0px;
+}
+.pranto-ul li ul {
+    border-top: 1px dotted #000;
+    margin-left: -1em;
+    padding-left: 2em;
+}
+.pranto-ul ul li:last-child ul {
+    border-left: 1px dotted #000;
+    margin-left: -17px;
+}
+
+
+.post-item .post-content.post-referal .entry-content p {
+     margin-bottom: 0px;
+}
