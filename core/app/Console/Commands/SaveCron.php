@@ -1,32 +1,25 @@
 <?php
-namespace App\Http\Controllers;
+
 namespace App\Console\Commands;
 
-use App\Http\Controllers\CronController;
+use App\Http\Controllers\SavingsCronController;
 use Illuminate\Console\Command;
-use App\GeneralSetting;
-use App\UserWallet;
-use Carbon\Carbon;
-use App\Invest;
-use App\Trx;
-use App\User;
-use Illuminate\Support\Facades\Request;
 
-class TestCron extends Command
+class SaveCron extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:interest';
+    protected $signature = 'savings:autodebit';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Calculate investment maturity period';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -45,8 +38,6 @@ class TestCron extends Command
      */
     public function handle()
     {
-        return (new CronController())->cron();
+        return (new SavingsCronController())->cron();
     }
-
 }
-
