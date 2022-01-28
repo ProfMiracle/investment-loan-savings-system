@@ -19,7 +19,7 @@ class SaveCron extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Check for those that need to e debited for savings and debit them';
 
     /**
      * Create a new command instance.

@@ -1,16 +1,9 @@
 <?php
-namespace App\Http\Controllers;
+
 namespace App\Console\Commands;
 
 use App\Http\Controllers\CronController;
 use Illuminate\Console\Command;
-use App\GeneralSetting;
-use App\UserWallet;
-use Carbon\Carbon;
-use App\Invest;
-use App\Trx;
-use App\User;
-use Illuminate\Support\Facades\Request;
 
 class TestCron extends Command
 {
