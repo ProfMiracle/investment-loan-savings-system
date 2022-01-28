@@ -187,7 +187,7 @@ class SiteController extends Controller
         return view(activeTemplate() . 'blog', compact('blogs', 'page_title', 'recentBlog'));
     }
 
-    public function blogDetails($slug = null, $id, $data_keys = 'blog.post')
+    public function blogDetails($id, $data_keys = 'blog.post')
     {
         $post = Frontend::where('id', $id)->where('data_keys', $data_keys)->firstOrFail();
 
