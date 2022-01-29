@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\SaveCron;
-use App\Console\Commands\TestCron;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,8 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\TestCron',
-        'App\Console\Commands\SaveCron',
+        //'App\Console\Commands\TestCron',
+        //'App\Console\Commands\SaveCron',
+        Commands\SaveCron::class,
+        Commands\TestCron::class
     ];
 
     /**
@@ -27,10 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('test:interest')
-                  ->everyMinute();
-         $schedule->command('savings:autodebit')
-             ->hourly();
+         $schedule->command('test:interest')->everyMinute();
+         $schedule->command('savings:autodebit')->hourly();
     }
 
     /**

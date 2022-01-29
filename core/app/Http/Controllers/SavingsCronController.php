@@ -76,7 +76,7 @@ class SavingsCronController extends Controller
                 $fields = [
                     'authorization_code' => json_decode($authorization->authorization)->authorization_code,
                     'email' => $method->email,
-                    'amount' => $method->amount
+                    'amount' => $method->amount * 100
                 ];
                 $fields_string = http_build_query($fields);
                 //open connection
