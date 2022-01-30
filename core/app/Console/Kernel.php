@@ -27,8 +27,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('test:interest')->everyMinute();
-         $schedule->command('savings:autodebit')->hourly();
+         $schedule->command('test:interest')->everyMinute()
+             ->runInBackground()
+             ->emailOutputTo('alelechi17@gmail.com');
+         $schedule->command('savings:autodebit')->hourly()
+             ->runInBackground()
+             ->emailOutputTo('alelechi17@gmail.com');
     }
 
     /**
