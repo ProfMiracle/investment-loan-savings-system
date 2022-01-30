@@ -29,10 +29,10 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('test:interest')->everyMinute()
              ->runInBackground()
-             ->emailOutputTo('alelechi17@gmail.com');
+             ->emailOutputTo('alelechi17@gmail.com', true);
          $schedule->command('savings:autodebit')->hourly()
              ->runInBackground()
-             ->emailOutputTo('alelechi17@gmail.com');
+             ->emailOutputTo('alelechi17@gmail.com', true);
     }
 
     /**
