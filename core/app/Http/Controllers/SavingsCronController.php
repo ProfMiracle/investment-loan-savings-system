@@ -8,6 +8,7 @@ use App\Autosave;
 use App\AutosavePlan;
 use App\CardAuthorization;
 use App\CronHolder;
+use App\Exceptions\CustomException;
 use App\GatewayCurrency;
 use App\GeneralSetting;
 use App\SavingsWallet;
@@ -173,6 +174,9 @@ class SavingsCronController extends Controller
                     ]);
 
                     //continue;
+                }else
+                {
+                    throw new CustomException('Could not make curl request');
                 }
             }
         }catch (\Throwable $throwable)
