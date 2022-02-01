@@ -13,10 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //'App\Console\Commands\TestCron',
-        //'App\Console\Commands\SaveCron',
-        Commands\SaveCron::class,
-        Commands\TestCron::class
+        'App\Console\Commands\TestCron',
+        'App\Console\Commands\SaveCron',
     ];
 
     /**
