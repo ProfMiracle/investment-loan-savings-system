@@ -8,7 +8,6 @@ use App\Autosave;
 use App\AutosavePlan;
 use App\CardAuthorization;
 use App\CronHolder;
-use App\Exceptions\CustomException;
 use App\GatewayCurrency;
 use App\GeneralSetting;
 use App\SavingsWallet;
@@ -24,34 +23,34 @@ class SavingsCronController extends Controller
 {
     public function cron()
     {
-        try {
-            /**
-             * this route is best called every morning (8am), afternoon(2pm), evening (8pm)
-             */
-            $now = Carbon::now();
-            /**
-             * select all that should be debited from cronholder
-             * loop through to find the ones that the time fall in the time selected or attempt is more than zero
-             * or it has passed end date, if it has passed, mark as completed
-             * now for each of them, get data from the card authorization table
-             * from this table we already know the type and type id
-             * try to debit the authorization
-             * if success, increase the accumulated by the amount and clear attempt
-             * increase in the saving wallet
-             * check if it is the last day of check and mark as completed
-             * notify the user via mail
-             * else if it fails, increase attempt by 1
-             * notify the user and get ready to retry in next run
-             */
+        /**
+         * this route is best called every morning (8am), afternoon(2pm), evening (8pm)
+         */
+        $now = Carbon::now();
+        /**
+         * select all that should be debited from cronholder
+         * loop through to find the ones that the time fall in the time selected or attempt is more than zero
+         * or it has passed end date, if it has passed, mark as completed
+         * now for each of them, get data from the card authorization table
+         * from this table we already know the type and type id
+         * try to debit the authorization
+         * if success, increase the accumulated by the amount and clear attempt
+         * increase in the saving wallet
+         * check if it is the last day of check and mark as completed
+         * notify the user via mail
+         * else if it fails, increase attempt by 1
+         * notify the user and get ready to retry in next run
+         */
 
-            $cron_holder = CronHolder::where('status', 1)->get();
+        $cron_holder = CronHolder::where('status', 1)->get();
 
-            $gateway = GatewayCurrency::where('method_code', 107)->first();
-            $paystackAcc = json_decode($gateway->parameter);
-            $secret_key = $paystackAcc->secret_key;
+        $gateway = GatewayCurrency::where('method_code', 107)->first();
+        $paystackAcc = json_decode($gateway->parameter);
+        $secret_key = $paystackAcc->secret_key;
 
-            foreach ($cron_holder as $c)
-            {
+        foreach ($cron_holder as $c)
+        {
+            try{
                 $authorization = CardAuthorization::find($c->authorization);
                 if ($authorization->for == 'autosave')
                 {
@@ -66,18 +65,20 @@ class SavingsCronController extends Controller
                     $method = Targetsave::find($authorization->for_id);
                 }
 
+
                 //skip this guy if it is not his debit time
                 if (!self::time($method->when) && !self::interval($method->how, $method->updated_at))
                 {
                     continue;
                 }
+                //exit('hi');
 
                 // run auto debit
                 $url = "https://api.paystack.co/transaction/charge_authorization";
                 $fields = [
                     'authorization_code' => json_decode($authorization->authorization)->authorization_code,
                     'email' => $method->email,
-                    'amount' => $method->amount * 100
+                    'amount' => $method->amount
                 ];
                 $fields_string = http_build_query($fields);
                 //open connection
@@ -98,7 +99,6 @@ class SavingsCronController extends Controller
                 //execute post
                 $re = curl_exec($ch);
                 $result = json_decode($re, true);
-
                 //this user
                 $user = User::find($method->user_id);
 
@@ -173,17 +173,13 @@ class SavingsCronController extends Controller
                         'message' => 'Something went wrong while executing'
                     ]);
 
-                    //continue;
-                }else
-                {
-                    throw new CustomException('Could not make curl request');
+                    continue;
                 }
+            }catch(\Throwable $th)
+            {
+                report($th);
             }
-        }catch (\Throwable $throwable)
-        {
-            report($throwable);
         }
-        echo true;
     }
 
     private static function time($when)
