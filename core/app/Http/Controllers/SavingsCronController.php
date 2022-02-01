@@ -172,7 +172,7 @@ class SavingsCronController extends Controller
                         'message' => 'Something went wrong while executing'
                     ]);
 
-                    continue;
+                    //continue;
                 }
             }
         }catch (\Throwable $throwable)
